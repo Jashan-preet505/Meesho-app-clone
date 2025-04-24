@@ -1,0 +1,22 @@
+.btn{
+    background-color: black;
+    padding:7px;
+    border-radius: 8px;
+    color:white;
+    font-size: 20px;
+}
+
+.download-section{
+    display:inline-block;
+}
+
+.download-section:hover{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height:400px;
+    width:300px;
+    gap:20px;
+}
+
