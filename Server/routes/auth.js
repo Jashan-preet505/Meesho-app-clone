@@ -3,33 +3,55 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 const app = express();
+const jwt = require('jsonwebtoken');
 
-app.post('/register', async (req, res) => {
-    const { email, password } = req.body;
+fetch('/api/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email, password})
+});
+
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+    // Create JWT if credentials are valid
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      'your_jwt_secret', // Use env variable!
+      { expiresIn: '1h' }
+    );
+    res.json({ token }); // Send JWT to client
+  });
   
-    try {
-      // Step 1: Check if user already exists
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return res.status(400).json({ message: 'User already exists' });
-      }
-  
-      // Step 2: Create new user
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new User({
-        email,
-        password: hashedPassword // ideally hash this first (next step!)
-      });
-  
-      // Step 3: Save to database
-      await newUser.save();
-  
-      res.status(201).json({ message: 'User created successfully' });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Server error' });
+  localStorage.setItem('token', receivedToken);
+   
+  fetch('/api/dashboard', {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
   });
+
+  const verifyToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) return res.sendStatus(401);
+    jwt.verify(token, 'your_jwt_secret', (err, user) => {
+      if (err) return res.sendStatus(403); // invalid/expired token
+      req.user = user; // decoded payload
+      next();
+    });
+  };
+
+  // Protect this route
+app.get('/api/dashboard', verifyToken, (req, res) => {
+  res.json({ message: `Welcome, user ${req.user.email}` });
+});
+
 
   module.exports = router;
   

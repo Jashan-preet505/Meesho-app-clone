@@ -1,0 +1,51 @@
+.searchResults{
+   display:flex;
+   justify-content: center;
+   align-items: center;
+   gap:20px;
+   flex-direction: column;
+   width:100%;
+}
+
+.searchItems{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:20px;
+    background-color: rgb(54, 49, 49);
+    border-radius: 10px;
+    color:white;
+}
+
+.searchContainer{
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-content: center;
+    gap:40px;
+    margin:20px;
+}
+
+.searchContainer img{
+    height:330px;
+   object-fit: cover;
+   object-position: center;
+}
+
+.button{
+    background-color: rgb(19, 26, 23);
+    padding:10px;
+    border:none;
+    border-radius: 8px;
+  color:white;
+  cursor:pointer;
+  font-size: 16px;
+transition: background-color 0.3s;
+  margin-bottom:10px;;
+}
+
+.button:hover{
+    background-color: rgb(151, 191, 218);
+    color:black;
+    font-weight: 600;
+}

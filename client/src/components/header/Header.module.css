@@ -38,6 +38,7 @@
    cursor:pointer;
    background-color: rgb(219, 237, 243);
   }
+
   .search_icon:hover{
     background-color: rgb(151, 191, 218);
     border:3px solid black;
@@ -49,7 +50,7 @@
     font-size: 18px;
     display: flex;
     place-content: center;
-    flex-direction: column;
+   flex-direction: column;
   }
 
   .link1{
@@ -61,5 +62,20 @@
     place-content: center;
   }
 
+  .search_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:10px;
+
+  }
+
+  .search_icon button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    height:100%;
+    width:100%;
+  }
 
   

@@ -10,26 +10,25 @@ const RegisterForm = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:5000/api/register', {
+      const res = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
-      });
+      })
 
       const data = await res.json();
-
-      if (res.ok) {
-        setMessage('Registration successful!');
-      } else {
-        setMessage(data.message || 'Registration failed');
-      }
-    } catch (err) {
-      console.log(err);
-      setMessage('An error occurred. Please try again later.');
+      
+      
+      
+    }
+    catch (error) {
+      console.error('Error:', error);
+      setMessage('An error occurred. Please try again.');
     }
   };
 
   return (
+    <>
     <form onSubmit={handleRegister}>
       <h2>Register</h2>
       {message && <p>{message}</p>}
@@ -49,9 +48,9 @@ const RegisterForm = () => {
         required
         autoComplete='new-password'
       /><br />
-      <button type="submit">Register</button>
+      <button type="submit">Sign Up Now</button>
     </form>
+    </>
   );
 };
-
 export default RegisterForm;

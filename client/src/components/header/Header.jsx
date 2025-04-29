@@ -6,7 +6,6 @@ import { FaUser } from "react-icons/fa";
 import Home from "../home/Home.jsx";
 import Login from "../login/Login.jsx";
 import { MdOutlinePhoneAndroid } from "react-icons/md";
-import { BsSearch } from "react-icons/bs";
 import Dropdown1 from "../home/Dropdown/Dropdown.jsx";
 import Dropdown2 from "../home/Dropdown/Dropdown2.jsx";
 import Dropdown3 from '../home/Dropdown/Dropdown3.jsx';
@@ -18,8 +17,18 @@ import Dropdown8 from '../home/Dropdown/Dropdown8.jsx';
 import ProductPage from "../home/Products/Products.jsx";
 import styles from "./Header.module.css";
 import RegisterForm from "../login/Register.jsx";
+import ProductSearch from "./Product_search.jsx";
+import Searchresults from "../header/Search_results.jsx";
+import { fakeAuth } from "../login/Auth.js"; 
+import Dashboard from "../login/Dashboard.jsx";
+import { Navigate } from "react-router-dom";
 
-const Header = ({searchTerm, setSearchTerm}) => {
+const Header = () => {
+  
+
+const PrivateRoute = ({ children }) => {
+  return fakeAuth.isAuthenticated ? children : <Navigate to="/" />;
+};
   return (
     <>
       <BrowserRouter>
@@ -27,16 +36,8 @@ const Header = ({searchTerm, setSearchTerm}) => {
           <nav>
             <div id="div1">
               <h1>meesho</h1>
-              <input
-          type="text"
-          placeholder="Search any product...."
-          id="inputbox"
-          onChange={(e) => setSearchTerm(e.target.value)}
-          value={searchTerm}
-        />
-              <div className={styles.search_icon}>
-                <BsSearch fontSize="24px" />{" "}
-              </div>
+              <ProductSearch  />
+              
             </div>
 
             <div id="div2" className={styles.right_nav}>
@@ -86,6 +87,12 @@ const Header = ({searchTerm, setSearchTerm}) => {
           <Route path="/login" element={<Login />}></Route>
           {/* Example: http://localhost:3000/category/tshirts */}
           <Route path="/:category/:subcategory" element={<ProductPage />} />
+          <Route path="/search" element={<Searchresults />} />
+          <Route path="/dashboard" element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        } />
         </Routes>
       </BrowserRouter>
     </>
